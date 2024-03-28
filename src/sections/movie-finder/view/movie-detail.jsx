@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 
 // import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
@@ -14,6 +14,8 @@ import { toggleFavorite } from 'src/redux/reducer/movies';
 
 // import Iconify from 'src/components/iconify';
 
+import useMovies from 'src/routes/hooks/useMovies';
+
 import MovieDetailCard from '../movie-detail-card';
 
 // ----------------------------------------------------------------------
@@ -22,20 +24,8 @@ export default function MovieDetailView() {
   const { id } = useParams();
   // const router = useRouter();
   const dispatch = useDispatch();
-  const movies = useSelector((state) => state.movies.value);
+  const { movies, loading } = useMovies();
   const movieDetail = movies.find((movie) => movie.id === Number(id));
-
-  // useEffect(() => {
-  //   const fetchMovies = async () => {
-  //     const { data } = await getMovies();
-  //     dispatch(update(data));
-  //   };
-  //   console.log('fetch');
-  //   fetchMovies();
-  // }, [dispatch]);
-
-  // console.log(movies, 'movies');
-  // console.log(movieDetail, 'movieDetail');
 
   const onClickFavorite = useCallback(
     (movieId) => {
@@ -64,14 +54,18 @@ export default function MovieDetailView() {
         </Stack>
       </Stack>
 
-      <Grid container spacing={3}>
-        {movieDetail && (
-          <MovieDetailCard
-            detail={movieDetail}
-            onClickFavorite={() => onClickFavorite(Number(id))}
-          />
-        )}
-      </Grid>
+      {loading ? (
+        'Loading...'
+      ) : (
+        <Grid container spacing={3}>
+          {movieDetail && (
+            <MovieDetailCard
+              detail={movieDetail}
+              onClickFavorite={() => onClickFavorite(Number(id))}
+            />
+          )}
+        </Grid>
+      )}
     </Container>
   );
 }
