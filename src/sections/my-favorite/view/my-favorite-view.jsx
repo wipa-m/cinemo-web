@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -14,6 +16,8 @@ export default function MyFavoriteView() {
   const router = useRouter();
   const { movies, loading } = useMovies();
 
+  const moviesFavorites = useMemo(() => movies.filter((movie) => movie.isFavorite), [movies]);
+
   const onClickMovie = (id) => {
     router.push(`/movie-detail/${id}`);
   };
@@ -28,7 +32,7 @@ export default function MyFavoriteView() {
         'Loading...'
       ) : (
         <Grid container spacing={3}>
-          {movies.map((movie, index) => (
+          {moviesFavorites.map((movie, index) => (
             <MovieCard
               key={movie.id}
               detail={movie}

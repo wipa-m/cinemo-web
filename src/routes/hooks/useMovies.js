@@ -16,9 +16,7 @@ export default function useMovies() {
         const { data } = await getMovies();
         dispatch(update(data));
         setLoading(false);
-        console.log(data, 'movies');
       };
-      console.log('start fetch movies');
       fetchMovies();
     }
   }, [dispatch, movies.length]);
