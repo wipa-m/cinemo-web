@@ -13,8 +13,11 @@ export const usersSlice = createSlice({
       state.all = action.payload.all;
       state.currentUser = action.payload.currentUser;
     },
+    resetUsers: (state) => {
+      state = { ...initialState };
+    },
   },
 });
 
-export const { initial } = usersSlice.actions;
+export const { initial, resetUsers } = usersSlice.actions;
 export default usersSlice.reducer;

@@ -41,10 +41,9 @@ export const moviesSlice = createSlice({
           const favoriteIds = currentUser.favoriteIds || [];
           newMovies = state.value.map((movie) => {
             if (movie.id === action.payload.id) {
-              const isFav = favoriteIds.includes(movie.id);
               return {
                 ...movie,
-                isFavorite: !isFav,
+                isFavorite: !favoriteIds.includes(movie.id),
               };
             }
             return movie;
@@ -68,8 +67,11 @@ export const moviesSlice = createSlice({
 
       state.value = newMovies;
     },
+    resetMovies: (state) => {
+      state.value = initialState.value;
+    },
   },
 });
 
-export const { update, toggleFavorite } = moviesSlice.actions;
+export const { update, toggleFavorite, resetMovies } = moviesSlice.actions;
 export default moviesSlice.reducer;

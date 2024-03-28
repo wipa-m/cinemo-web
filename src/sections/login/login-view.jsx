@@ -2,11 +2,8 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Box from '@mui/material/Box';
-// import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-// import Button from '@mui/material/Button';
-// import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -21,6 +18,7 @@ import { CINEMO_USERS, CINEMO_LOGIN_TOKEN } from 'src/utils/staticVariables';
 import { bgGradient } from 'src/theme/css';
 import { getDataLocalStorage } from 'src/utils';
 import { initial } from 'src/redux/reducer/users';
+import { resetMovies } from 'src/redux/reducer/movies';
 
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
@@ -56,8 +54,9 @@ export default function LoginView() {
     const newUsers = oldUser ? userList : [...userList, formSignIn];
     localStorage.setItem(CINEMO_USERS, JSON.stringify(newUsers));
     localStorage.setItem(CINEMO_LOGIN_TOKEN, formSignIn.username);
-    dispatch(initial({ all: newUsers, currentUser }));
 
+    dispatch(initial({ all: newUsers, currentUser }));
+    dispatch(resetMovies());
     setFormSignIn({
       username: '',
       password: '',
@@ -98,12 +97,6 @@ export default function LoginView() {
           }}
         />
       </Stack>
-
-      {/* <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-        <Link variant="subtitle2" underline="hover">
-          Forgot password?
-        </Link>
-      </Stack> */}
 
       <LoadingButton
         fullWidth
@@ -149,51 +142,6 @@ export default function LoginView() {
           <Typography variant="h4" sx={{ mb: 5 }}>
             Sign in to Cinemo
           </Typography>
-          {/* 
-          <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
-            Don’t have an account?
-            <Link variant="subtitle2" sx={{ ml: 0.5 }}>
-              Get started
-            </Link>
-          </Typography>
-
-          <Stack direction="row" spacing={2}>
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:google-fill" color="#DF3E30" />
-            </Button>
-
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:facebook-fill" color="#1877F2" />
-            </Button>
-
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:twitter-fill" color="#1C9CEA" />
-            </Button>
-          </Stack>
-
-          <Divider sx={{ my: 3 }}>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              OR
-            </Typography>
-          </Divider> */}
 
           {renderForm}
         </Card>
